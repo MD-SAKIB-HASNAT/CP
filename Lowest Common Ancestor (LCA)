@@ -1,0 +1,101 @@
+//Lowest Common Ancestor - source: https://www.youtube.com/watch?v=il2HXsJPGO4
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef int                       li;
+typedef long long int             ll;
+typedef unsigned long long int    ul;
+typedef long double               ld;
+typedef double                    db;
+
+//---------------------------------------------------------------------------------
+
+typedef vector < li >                   vli;
+typedef vector < ll >                   vll;
+typedef set < li >                      sli;
+typedef set < ll >                      sll;
+typedef pair < pair<li, li>, li>        pli;
+typedef pair < ll, ll >                 pll;
+typedef map < li,li >                   mli;
+typedef map < ll,ll >                   mll;
+typedef vector < pair < li, li > >      vpi;
+typedef vector < pair < ll, ll > >      vpl;
+typedef priority_queue<li>              pqi;
+typedef priority_queue<ll>              pql;
+
+//----------------------------------------------------------------------------------
+int t;
+#define Fast                      ios::sync_with_stdio(0); cin.tie(0);cout.tie(0);
+#define tc                        int tt; cin>>tt; for(t=1; t<=tt; t++)
+#define inp_(a,n)                 for(int i=0; i<n ;i++) cin>>a[i];
+#define loop_(a,n)                for(int i=0; i<n ;i++)
+#define yes                       cout<<"YES"<<endl;
+#define no                        cout<<"NO"<<endl;
+#define pb                        push_back
+#define F                         first
+#define S                         second
+#define pi acos(-1.0)
+
+
+// Initializing the 2-D vector
+//vector<vector<int>> v(num_row, vector<int> (num_col, 0)) ;
+
+vector<int>graph[200005];
+int parent[200005];
+
+void dfs(int ver, int par){
+    parent[ver]=par;
+    for(auto u:graph[ver]){
+        if(u==par) continue;
+        dfs(u,ver);
+    }
+}
+
+
+vector<int> path(int v){
+    vector<int>as;
+    while(v!=-1){
+        as.pb(v);
+        v=parent[v];
+    }
+    return as;
+}
+
+
+void solve(){
+      int n,q;
+      cin>>n>>q;
+      for(int i=1; i<n; i++){
+        int x;
+        cin>>x;
+        graph[x].pb(i+1);
+        graph[i+1].pb(x);
+      }
+      dfs(1,-1);
+      while(q--){
+        int x,y;
+        cin>>x>>y;
+        vector<int>path_x=path(x);
+        vector<int>path_y=path(y);
+        reverse(path_x.begin(),path_x.end());
+        reverse(path_y.begin(),path_y.end());
+
+        int mn_sz=min(path_x.size(),path_y.size());
+        int lca=-1;
+        for(int i=0; i<mn_sz; i++){
+            if(path_x[i]==path_y[i]) lca=path_x[i];
+            else break;
+        }
+
+        cout<<lca<<endl;
+//        if(path_x.size()<=y) cout<<-1<<endl;
+//        else cout<<path_x[y]<<endl;
+      }
+}
+
+int main(){
+    Fast
+    //tc
+    solve();
+}
