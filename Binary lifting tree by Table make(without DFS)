@@ -1,0 +1,87 @@
+Problem Link: https://cses.fi/problemset/task/1687
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef int                       li;
+typedef long long int             ll;
+typedef unsigned long long int    ul;
+typedef long double               ld;
+typedef double                    db;
+
+//---------------------------------------------------------------------------------
+
+typedef vector < li >                   vli;
+typedef vector < ll >                   vll;
+typedef set < li >                      sli;
+typedef set < ll >                      sll;
+typedef pair < pair<li, li>, li>        pli;
+typedef pair < ll, ll >                 pll;
+typedef map < li,li >                   mli;
+typedef map < ll,ll >                   mll;
+typedef vector < pair < li, li > >      vpi;
+typedef vector < pair < ll, ll > >      vpl;
+typedef priority_queue<li>              pqi;
+typedef priority_queue<ll>              pql;
+
+//----------------------------------------------------------------------------------
+int t;
+#define Fast                      ios::sync_with_stdio(0); cin.tie(0);cout.tie(0);
+#define tc                        int tt; cin>>tt; for(t=1; t<=tt; t++)
+#define inp_(a,n)                 for(int i=0; i<n ;i++) cin>>a[i];
+#define loop_(a,n)                for(int i=0; i<n ;i++)
+#define yes                       cout<<"YES"<<endl;
+#define no                        cout<<"NO"<<endl;
+#define pb                        push_back
+#define F                         first
+#define S                         second
+#define pi acos(-1.0)
+
+
+// Initializing the 2-D vector
+//vector<vector<int>> v(num_row, vector<int> (num_col, 0)) ;
+int n,q,u,k;
+int a[200005];
+int table[19][200005];
+
+void make(){
+    table[0][1]=0;
+    for(int i=2; i<=n; i++){
+        table[0][i]=a[i];
+    }
+
+    for(int i=1; i<=18; i++){
+        for(int j=1; j<=n; j++){
+            table[i][j]=table[i-1][table[i-1][j]];
+        }
+    }
+
+}
+void ans(int u, int k){
+    int res=u;
+    for(int i=0; i<=18; i++){
+        if((1<<i)&k){
+            res=table[i][res];
+        }
+    }
+    if(res) cout<<res<<endl;
+    else cout<<-1<<endl;
+}
+
+
+void solve(){
+
+    cin>>n>>q;
+    for(int i=2; i<=n; i++) cin>>a[i];
+    make();
+    while(q--){
+        cin>>u>>k;
+        ans(u,k);
+    }
+}
+
+int main(){
+    Fast
+    //tc
+    solve();
+}
