@@ -1,0 +1,25 @@
+void make(){
+    for(int i=1; i<200005; i++){
+        parent[i]=i;
+        sz[i]=1;
+    }
+}
+ll findd(ll u){
+    if(parent[u]==u) return u;
+    else return parent[u]=findd(parent[u]);
+}
+
+void marge(ll u,ll v){
+    ll p1=findd(u);
+    ll p2=findd(v);
+    if(p1!=p2){
+        if(sz[p1]<sz[p2]) {
+        parent[p1]=p2;
+        sz[p2]+=sz[p1];
+        }
+        else{
+            parent[p2]=p1;
+            sz[p1]+=sz[p2];
+        }
+    }
+}
